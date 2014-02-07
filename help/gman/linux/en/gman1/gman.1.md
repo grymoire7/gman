@@ -1,13 +1,13 @@
 <img src="gmanhat.png" align="right"/>
-# Gman(1) - A better help system for youz guyz
+# Gman(1) - A better help system
 
 ## Summary
 Gman is a help system with some modern options.
 Sources are in the easy-to-edit Markdown format.
 Here are a few features by example:
 
-### Just show the Summary/TLDR section:
-    alias tldr='gman -s tldr'
+### Just show the Summary section:
+    alias tldr='gman -s Summary'
     tldr tar
 
 ### Just show particular options:
