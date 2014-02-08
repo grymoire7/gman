@@ -1,3 +1,0 @@
-[submodule "source/src/blackfriday"]
-	path = source/src/blackfriday
-	url = https://github.com/russross/blackfriday.git
