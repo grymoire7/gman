@@ -18,7 +18,6 @@
 package main
 
 import (
-    "encoding/json"   // for reading config file
     "flag"            // for command line parameters
     // "fmt"             // for printing runtime errors
     "io/ioutil"       // for reading files and logging
@@ -27,7 +26,6 @@ import (
     // "open"            // for launching the web browser
     // "os/exec"         // for executing conversions
     "os"              // for local file access
-    "os/user"            // for finding user home directory
     "log"             // for debug logging
     // "path"            // for local file system access
     // "path/filepath"   // for local file system access
@@ -35,58 +33,6 @@ import (
     // "sort"            // for sorting the file list
     // "strings"         // for string manipulation
 )
-
-// TODO: Configuration reading is probably complex enough to be in it's
-// own source file.
-
-// TODO: use a better type for GManPathMap
-type ConfigObject struct {
-    Help  bool                   // Show help (gman help page)
-    Debug bool
-    Man   bool
-    Section  string
-    HttpPort string
-    SectionSearchOrder string
-    GManPath    []string
-    GManPathMap []string
-}
-
-// Define options with some defaults
-var config = ConfigObject {
-    Help:     false,
-    Debug:    false,
-    Man:      false,
-    Section:  "",
-    HttpPort: "8088",
-    SectionSearchOrder: "1 n l 8 3 2 3posix 3pm 3perl 5 4 9 6 7",
-    GManPath: []string{"", ""},
-    GManPathMap: []string{"", ""},
-}
-
-// TODO: We probably need to return extra command line arguments
-// as an array of strings.
-func readConfig() ConfigObject {
-
-    // get user directory
-    usr, err := user.Current()
-    if err != nil {
-        log.Println("Error file user home directory: ", err)
-        return config
-    }
-    log.Println("User homedir: ", usr.HomeDir)
-
-    // TODO: Check for config file in /etc/gmanrc
-    // DONE: Check for config file in $HOME/.gmanrc
-    // TODO: If config.Man then read /etc/manpath.config
-    file, err := ioutil.ReadFile(usr.HomeDir + "/.gmanrc")
-    if err != nil {
-        log.Println("Error reading .gmanrc file: ", err)
-        return config
-    }
-
-    json.Unmarshal(file, &config)
-    return config
-}
 
 func init() {
 }
