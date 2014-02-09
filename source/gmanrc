@@ -1,0 +1,31 @@
+{
+    "_README": [
+        " This config file controls the Gman help facility. See 'gman gman for more      ",
+        " information.                                                                   ",
+        "                                                                                ",
+        " Values startig with an underscore are considered comments and will be ignored. ",
+        "                                                                                ",
+        " This file is in JSON format (hence the odd commenting style) and any syntax    ",
+        " errors in this config file will cause it to be ignored and use hardcoded       ",
+        " defaults.                                                                      "
+    ],
+
+    "_PORT": " This the port the http server will run on. Default: 8088 ",
+    "port" : "8088",
+
+    "_LANG":  " Language of help pages. Default: en_us. ",
+    "lang" :  "en_us",
+
+    "_OS":  [ " Operating system for help page. Default is auto-detected. ",
+              " Possible values:  linux, osx, sunos, hpux, aix, win       " ],
+    "os" :  "",
+
+    "_GMANPATH": [ " Search path to for when looking for help pages.  ",
+                   " Defaults to directory where gman is installed.   " ],
+    "gmanpath" : "../help/gman",
+
+    "_CLOPTS":  " Command line options to add by default.  Default: none. ",
+    "clopts" : "-d -s tldr",
+
+    "_THE_END":  "Have a nice day!"
+}
