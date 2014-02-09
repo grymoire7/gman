@@ -1,0 +1,3 @@
+[submodule "source/src/blackfriday"]
+	path = source/src/blackfriday
+	url = git@github.com:grymoire7/blackfriday.git
