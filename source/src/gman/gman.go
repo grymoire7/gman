@@ -19,14 +19,15 @@ package main
 
 import (
     "flag"            // for command line parameters
-    // "fmt"             // for printing runtime errors
     "io/ioutil"       // for reading files and logging
+    "os"              // for local file access
+    "log"             // for debug logging
+    "blackfriday"     // markdown parser
+    "fmt"             // for printing runtime errors
     // "net/http"        // for creating an http web service
     // "net/url"         // for url escaping
     // "open"            // for launching the web browser
     // "os/exec"         // for executing conversions
-    "os"              // for local file access
-    "log"             // for debug logging
     // "path"            // for local file system access
     // "path/filepath"   // for local file system access
     // "regexp"          // for file parsing
@@ -62,7 +63,61 @@ func main() {
         log.SetOutput(ioutil.Discard)
     }
 
-    // log.Printf("Config: %v\n", config)
+    var input []byte
+    var err error
+    var args = f.Args()
+    // TODO: look for gman file in gmanpath
+    // TODO: support .gz
+
+    switch len(args) {
+    case 0:
+        if input, err = ioutil.ReadAll(os.Stdin); err != nil {
+            fmt.Fprintln(os.Stderr, "Error reading from Stdin:", err)
+            os.Exit(-1)
+        }
+    case 1,2:
+        if input, err = ioutil.ReadFile(args[0]); err != nil {
+            fmt.Fprintln(os.Stderr, "Error reading from", args[0], ":", err)
+            os.Exit(-1)
+        }
+    default:
+        fmt.Println("Too many arguments (", len(args), ").")
+        os.Exit(-1);
+    }
+
+    if len(args) > 0 {
+        log.Println("In from:", args[0])
+    }
+
+	extensions := 0
+    extensions |= blackfriday.EXTENSION_NO_INTRA_EMPHASIS
+    extensions |= blackfriday.EXTENSION_TABLES
+    extensions |= blackfriday.EXTENSION_FENCED_CODE
+    extensions |= blackfriday.EXTENSION_AUTOLINK
+    extensions |= blackfriday.EXTENSION_STRIKETHROUGH
+    extensions |= blackfriday.EXTENSION_SPACE_HEADERS
+
+    renderer := blackfriday.TerminalRenderer(0)
+    // output := blackfriday.MarkdownCommon(input)
+    output := blackfriday.Markdown(input, renderer, extensions)
+
+   	// output the result
+    var out *os.File
+    if len(args) == 2 {
+        if out, err = os.Create(args[1]); err != nil {
+            fmt.Fprintf(os.Stderr, "Error creating %s: %v", args[1], err)
+            os.Exit(-1)
+        }
+        defer out.Close()
+    } else {
+        out = os.Stdout
+    }
+
+    if _, err = out.Write(output); err != nil {
+        fmt.Fprintln(os.Stderr, "Error writing output:", err)
+        os.Exit(-1)
+    }
+
     log.Printf("Section: %s\n", config.Section)
 }
 
