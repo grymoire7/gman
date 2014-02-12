@@ -10,22 +10,22 @@
         " defaults.                                                                      "
     ],
 
-    "_PORT": " This the port the http server will run on. Default: 8088 ",
-    "port" : "8088",
+    "_Help" : " This is the port the http server will run on. [Default: 8088]",
+    "--port" : "8088",
 
-    "_LANG":  " Language of help pages. Default: en_us. ",
+    "_Help" :  " Language of help pages. Default: en_us. ",
     "lang" :  "en_us",
 
-    "_OS":  [ " Operating system for help page. Default is auto-detected. ",
+    "_Help" : "Use this config file rather than the [Default: ~/.gmanrc]",
+    "--config-file" : "~/.gmanrc",
+
+    "_Help":  [ " Operating system for help page. Default is auto-detected. ",
               " Possible values:  linux, osx, sunos, hpux, aix, win       " ],
     "os" :  "",
 
-    "_GMANPATH": [ " Search path to for when looking for help pages.  ",
+    "_Help": [ " Search path to for when looking for help pages.  ",
                    " Defaults to directory where gman is installed.   " ],
     "gmanpath" : "../help/gman",
-
-    "_CLOPTS":  " Command line options to add by default.  Default: none. ",
-    "clopts" : "-d -s tldr",
 
     "_THE_END":  "Have a nice day!"
 }
