@@ -44,7 +44,8 @@ func readConfig() map[string]interface{} {
     usage := `GMan
 
 Usage:
-  gman [-d | --debug] [--color] [-s <docsection>] <page>
+  gman [-d | --debug] [--color] [-s <docsection>]
+       [-P pager | --pager=pager] <page>
   gman (-b | --browse) [(-p <port> | --port <port>)]
   gman (-h | --help | -V | --version )
 
