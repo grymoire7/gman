@@ -39,7 +39,6 @@ func main() {
     if debug, ok := opts["--debug"]; ok && debug.(bool) {
         log.Println("Debug on")
     } else {
-        log.Println("Debug off")
         log.SetOutput(ioutil.Discard)
     }
 

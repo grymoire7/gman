@@ -63,7 +63,7 @@ Options:
         log.Println("Error file user home directory: ", err)
         return nil
     }
-    log.Println("User homedir: ", usr.HomeDir)
+    // log.Println("User homedir: ", usr.HomeDir)
 
     binConfig, _ := loadJSONConfig("gmanrc")
     etcConfig, _ := loadJSONConfig("/etc/gman.conf")
