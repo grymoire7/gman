@@ -1,4 +1,3 @@
-<img src="gman.1.png" align="right"/>
 # gman-test(1) - A help page for testing gman
 
 ## Summary
@@ -6,7 +5,8 @@ Gman-test is meant to contain a wide variety of features to be useful for
 testing purposes.
 
 ### Single emphasis
-This is *emaphasized* and not emphasized.
+This is *emaphasized* and not emphasized. Chocolate cake lollipop danish. Unerdwear bonbon lemon drops and chocolate.
+Extra words are written here.
 
 ### Double emphasis
 This is **emaphasized** and not emphasized.
@@ -28,6 +28,7 @@ This is ***emaphasized*** and not emphasized.
 Start an http server for interactive browsing and launch the default
 browser if possible.
 
+<img src="gman.1.png" align="right"/>
 # Heading one
 Heading one content.
 

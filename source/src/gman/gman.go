@@ -1,5 +1,5 @@
 // Copyright 2014 The Gman Authors. All rights reserved.
-// Use of this source code is governed by an MIT-style
+// Use of this source code is governed by an BSD-style
 // license that can be found in LICENSE file.
 
 /*
@@ -73,16 +73,16 @@ func main() {
     renderer := blackfriday.TerminalRenderer(0)
     output := blackfriday.Markdown(input, renderer, extensions)
 
-    // declare the pager
+    // declare the pager in raw mode
     cmd := exec.Command("less", "-R")
     // create a blocking pipe
     r, stdin := io.Pipe()
-    // Set the i/o's
+    // set the ins and outs
     cmd.Stdin = r
     cmd.Stdout = os.Stdout
     cmd.Stderr = os.Stderr
 
-    // Create a blocking chan, Run the pager and unblock once it is finished
+    // Create a blocking chan, run the pager and unblock once it is finished
     c := make(chan struct{})
     go func() {
         defer close(c)
