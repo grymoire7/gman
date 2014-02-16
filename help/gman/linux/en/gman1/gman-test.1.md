@@ -5,7 +5,7 @@ Gman-test is meant to contain a wide variety of features to be useful for
 testing purposes.
 
 ### Single emphasis
-This is *emaphasized* and not emphasized. Chocolate cake lollipop danish. Unerdwear bonbon lemon drops and chocolate.
+こんにちは。This is *emaphasized* and not emphasized. Chocolate cake lollipop danish. Unerdwear bonbon lemon drops and chocolate.
 Extra words are written here.
 
 ### Double emphasis
@@ -53,7 +53,7 @@ All lists below should be identically rendered.
 
 * Red
 * Blue
-* Green
+* はじめまして。
 
 Another:
 
@@ -72,7 +72,7 @@ All lists below should be identically rendered.
 
     1. Red
     2. Blue
-    3. Green
+    3. はじめまして。
 
 
 1. Red
