@@ -19,6 +19,9 @@ package main
 
 import (
     "blackfriday" // markdown parser
+    "bufio"       // for section extraction
+    "bytes"       // for section extraction
+    "errors"      // for reporting errors
     "fmt"         // for printing runtime errors
     "io"          // for piping through pager
     "io/ioutil"   // for reading files and logging
@@ -44,7 +47,7 @@ func main() {
 
     for k, v := range opts {
         if !strings.HasPrefix(k, "_") {
-            log.Printf("map: %s => %v\n", k, v)
+            log.Printf("opt: %s => %v\n", k, v)
         }
     }
     // TODO: Should be more robust. Should search a path collection and allow
@@ -58,8 +61,21 @@ func main() {
 
     // TODO: support .gz
     if input, err = ioutil.ReadFile(pagepath); err != nil {
-        fmt.Fprintln(os.Stderr, "Error reading from", pagepath, ":", err)
+        fmt.Fprintln(os.Stderr, "gman: help page not found")
+        log.Println("Error reading from", pagepath, ":", err)
         os.Exit(-1)
+    }
+
+    // handle section extraction option
+    if opts["-s"] != nil {
+        log.Println("Exracting", opts["-s"], "...")
+        c, err := extractDocSection(input, opts["-s"].(string))
+        if err == nil {
+            input = c
+        } else {
+            fmt.Fprintln(os.Stderr, err)
+            os.Exit(-1)
+        }
     }
 
     extensions := 0
@@ -97,4 +113,43 @@ func main() {
 
     // Wait for the pager to be finished
     <-c
+}
+
+func extractDocSection(input []byte, sectionPattern string) ([]byte, error) {
+    var lines []string
+    var inSection = false
+    var foundSection = false
+    var sectionLevel = 0
+    scanner := bufio.NewScanner(bytes.NewReader(input))
+    for scanner.Scan() {
+        line := scanner.Text()
+        if strings.HasPrefix(line, "#") {
+            var level = 0
+            for _, c := range line {
+                if c != '#' {
+                    break
+                }
+                level++
+            }
+            if inSection {
+                if level <= sectionLevel {
+                    inSection = false
+                }
+            } else {
+                if strings.Contains(line, sectionPattern) {
+                    inSection = true
+                    foundSection = true
+                    sectionLevel = level
+                }
+            }
+        }
+        if inSection {
+            lines = append(lines, scanner.Text())
+        }
+    }
+    s := strings.Join(lines, "\n")
+    if !foundSection {
+        return nil, errors.New("gman: document section not found")
+    }
+    return []byte(s), scanner.Err()
 }
