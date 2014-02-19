@@ -29,13 +29,14 @@ import (
     "os"          // for local file access
     "os/exec"     // for piping through pager
     "strings"     // for string manipulation
+    "compress/gzip"
 )
 
 func init() {
 }
 
 func main() {
-    // Get configuration options from .gmanrc first.
+    // Get configuration options from rc files and command line.
     opts := readConfig()
 
     // Discard logging messages if not in debug mode.
@@ -45,26 +46,52 @@ func main() {
         log.SetOutput(ioutil.Discard)
     }
 
+    // log configuration options
     for k, v := range opts {
         if !strings.HasPrefix(k, "_") {
             log.Printf("opt: %s => %v\n", k, v)
         }
     }
+
     // TODO: Should be more robust. Should search a path collection and allow
     // missing os and lang dirs.
     page := opts["<page>"].(string)
     gmanpath := opts["gmanpath"].(string)
     pagepath := gmanpath + "/linux/en/gman1/" + page + ".1.md"
+    gzpagepath := gmanpath + "/linux/en/gman1/" + page + ".1.gz"
 
     var input []byte
     var err error
 
-    // TODO: support .gz
-    if input, err = ioutil.ReadFile(pagepath); err != nil {
-        fmt.Fprintln(os.Stderr, "gman: help page not found")
-        log.Println("Error reading from", pagepath, ":", err)
-        os.Exit(-1)
+    // try to open the compressed version first
+    f, err := os.Open(gzpagepath)
+    if err != nil {
+        // else try to open the non-compressed version
+        if input, err = ioutil.ReadFile(pagepath); err != nil {
+            fmt.Fprintln(os.Stderr, "gman: help page not found")
+            log.Println("Error reading from", pagepath, ":", err)
+            os.Exit(-1)
+        }
+    } else {
+        defer f.Close()
+        gz, err := gzip.NewReader(f)
+        if err != nil {
+            fmt.Fprintln(os.Stderr, "gman: help page not found")
+            log.Println("Error reading from", gzpagepath, ":", err)
+            os.Exit(-1)
+        } else {
+            // is there a better way to do this?
+            buf := bytes.NewBuffer(input)
+            _, err := io.Copy(buf, gz)
+            if err != nil {
+                fmt.Fprintln(os.Stderr, "gman: help page not found")
+                log.Println("Error reading from", gzpagepath, ":", err)
+                os.Exit(-1)
+            }
+            input = buf.Bytes()
+        }
     }
+
 
     // handle section extraction option
     if opts["-s"] != nil {
