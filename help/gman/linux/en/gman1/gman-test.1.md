@@ -81,13 +81,13 @@ All lists below should be identically rendered.
 
 1. Red
 1. Blue
-1. Green
+1. はじめまして。
 
 Another:
 
 3. Red
 1. Blue
-8. Green
+8. はじめまして。
 
 ### Wrapped Text
 
