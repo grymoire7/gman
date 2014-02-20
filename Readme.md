@@ -9,7 +9,7 @@ the web browsable version.
 Here are a few features by example:
 
 ### Just show the Summary section:
-    alias tldr='gman -s tldr'
+    alias tldr='gman -s Summary'
     tldr tar
 
 ### Just show particular options:
@@ -29,27 +29,29 @@ Working on version 0.1.
 ### Version 0.1
 Minimal features for something that works.
 
-* Blackfriday parser
-* Terminal renderer for Blackfriday
-* Design docs and roadmap
+* Terminal renderer for Markdown (75%)
+* Help page section extraction (100%)
+* Compressed help page support (100%)
+* Help page contribution guidelines (0%)
+* Options extraction (50%)
 
 ### Version 0.2
-* Section and option extraction
-* Inline Ronn-style extensions for Blackfriday
-* Allow for multiple languages and OSes.
+* Inline Ronn-style extensions for parser
+* Allow multiple languages and OSes
+* Install script
+* Bug fixes, help pages, etc.
 
 ### Version 0.3
-* HTTP server option for interactive browsing.
-* Bug fixes, docs, and more gman pages.
-
-### Version 0.4-0.9
-* Add support for compressed gman pages.
-* Bug fixes, docs, and more gman pages.
-* Determine criteria for Version 1.0
-
-### Version ?.?
 * Allow use of existing man pages.
 * Provide tool to convert man pages to gman pages.
+* HTTP server option for interactive browsing.
+* Examples with images
+* Bug fixes, help pages, etc.
+
+### Version 0.4-0.9
+* Determine criteria for Version 1.0
+* Bug fixes, help pages, etc.
+
 
 ## References
 * Markdown processing library [Blackfriday](https://github.com/russross/blackfriday).
