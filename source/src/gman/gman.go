@@ -18,18 +18,18 @@
 package main
 
 import (
-    "blackfriday" // markdown parser
-    "bufio"       // for section extraction
-    "bytes"       // for section extraction
-    "errors"      // for reporting errors
-    "fmt"         // for printing runtime errors
-    "io"          // for piping through pager
-    "io/ioutil"   // for reading files and logging
-    "log"         // for debug logging
-    "os"          // for local file access
-    "os/exec"     // for piping through pager
-    "strings"     // for string manipulation
-    "compress/gzip"
+    "blackfriday"   // markdown parser
+    "bufio"         // for section extraction
+    "bytes"         // for section extraction
+    "compress/gzip" // for gzip io
+    "errors"        // for reporting errors
+    "fmt"           // for printing runtime errors
+    "io"            // for piping through pager
+    "io/ioutil"     // for reading files and logging
+    "log"           // for debug logging
+    "os"            // for local file access
+    "os/exec"       // for piping through pager
+    "strings"       // for string manipulation
 )
 
 func init() {
@@ -91,7 +91,6 @@ func main() {
             input = buf.Bytes()
         }
     }
-
 
     // handle section extraction option
     if opts["-s"] != nil {
