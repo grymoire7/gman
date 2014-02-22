@@ -13,10 +13,7 @@ GODEP=$(GOTEST) -i
 GOFMT=gofmt -w
 
 BUILD=gman
-# man2md test requires an uncompressed man page that does
-# not exist on all machines.  Leaving off full list for now.
-# TEST=test_terminal test_man2md
-TEST=test_terminal
+TEST=test_terminal test_man2md
 
 all: clean $(BUILD) $(TEST)
 
