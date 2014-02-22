@@ -32,6 +32,6 @@ test_man2md:
 	cd $(GOPATH)/src/man2md && $(GOTEST) -run Man
 
 clean:
-	rm gman
+	-rm -f gman
 
 

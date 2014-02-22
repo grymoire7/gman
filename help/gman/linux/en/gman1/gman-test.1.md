@@ -5,12 +5,7 @@ Gman-test is meant to contain a wide variety of features to be useful for
 testing purposes.
 
 ### Single emphasis
-こんにちは。This is *emaphasized* and not emphasized. Chocolate cake lollipop danish. Unerdwear bonbon lemon drops and chocolate.
-Extra words are written here.
-
-Now we put in a "word" longer than the typical terminal width:
-012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789 and other text.
-
+This is *emaphasized* and not emphasized.
 
 ### Double emphasis
 This is **emaphasized** and not emphasized.
@@ -91,6 +86,17 @@ Another:
 
 ### Wrapped Text
 
+#### Asian ambiguous widths
+こんにちは。This is *emaphasized* and not emphasized. Chocolate cake lollipop danish. Underwear bonbon lemon drops and chocolate.
+Extra words are written here.
+
+こんにちは。 こんにちは。 こんにちは。 こんにちは。 こんにちは。 こんにちは。 こんにちは。 こんにちは。 こんにちは。 こんにちは。 こんにちは。 こんにちは。
+
+#### Long word
+Now we put in a "word" longer than the typical terminal width:
+012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789 and other text.
+
+#### Lists
 - Blue
 - Bonbon pie sesame snaps cookie cookie sweet marzipan biscuit. Cake jujubes
   topping. Toffee carrot cake lollipop. Sweet roll sesame snaps gummi bears
