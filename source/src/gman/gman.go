@@ -109,8 +109,6 @@ func main() {
     extensions |= blackfriday.EXTENSION_TABLES
     extensions |= blackfriday.EXTENSION_FENCED_CODE
     extensions |= blackfriday.EXTENSION_AUTOLINK
-    extensions |= blackfriday.EXTENSION_STRIKETHROUGH
-    extensions |= blackfriday.EXTENSION_SPACE_HEADERS
 
     renderer := blackfriday.TerminalRenderer(0)
     output := blackfriday.Markdown(input, renderer, extensions)
