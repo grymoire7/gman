@@ -59,6 +59,8 @@ func man2md(reader io.Reader, writer io.Writer) (err error) {
 		}
 	}
 
+	bufferedWriter.Flush()
+
 	// dsn debug
 	// Dump the list of unprocessed commands.
 	fmt.Printf("\n%d unprocessed dot commands:\n", len(state.unprocessedCmds))
