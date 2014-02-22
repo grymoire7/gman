@@ -3,4 +3,4 @@
 	url = git@github.com:grymoire7/blackfriday.git
 [submodule "source/src/docopt"]
 	path = source/src/docopt
-	url = git@github.com:docopt/docopt.go.git
+    url = git@github.com:grymoire7/docopt.go.git
