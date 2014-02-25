@@ -11,6 +11,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"regexp"
 	"sort"
 	"strings"
 
@@ -24,7 +25,7 @@ type man2mdState struct {
 	unprocessedCmds []string // dsn debug
 }
 
-func man2md(reader io.Reader, writer io.Writer) (err error) {
+func Convert(reader io.Reader, writer io.Writer) (err error) {
 	bufferedReader := bufio.NewReader(reader)
 	bufferedWriter := bufio.NewWriter(writer)
 
@@ -48,12 +49,19 @@ func man2md(reader io.Reader, writer io.Writer) (err error) {
 					return err
 				}
 			} else {
-				// Write the line, replacing trailing "\n" with a space.
-				if _, err := bufferedWriter.WriteString(line[:len(line)-1]); err != nil {
-					return err
-				}
-				if _, err := bufferedWriter.WriteString(" "); err != nil {
-					return err
+				// Check for start of options.
+				if regexp.MustCompile(".*options.*:[ \t\n]*$").MatchString(line) {
+					header := "OPTIONS"
+					s := fmt.Sprintf("%s\n%s\n", header, strings.Repeat("-", len(header)))
+					if _, err := bufferedWriter.WriteString(s); err != nil {
+						return err
+					}
+				} else {
+					// Write the line, replacing trailing "\n" with a space.
+					s := fmt.Sprintf("%s ", line[:len(line)-1])
+					if _, err := bufferedWriter.WriteString(s); err != nil {
+						return err
+					}
 				}
 			}
 		}
@@ -76,7 +84,7 @@ func man2md(reader io.Reader, writer io.Writer) (err error) {
 // Initially this will handle mdoc macros. Eventually we'll need to also process mandoc.
 func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Writer) (err error) {
 	// Split the line into tokens.
-	cmdToks := strings.Split(line, " ")
+	cmdToks := regexp.MustCompile("[ \t]").Split(line, -1)
 
 	// Strip "\n" from the end.
 	lastCmdTokenIndex := len(cmdToks) - 1
@@ -91,14 +99,30 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 	case ".Ar":
 		// Argument
 		// Emphasize it (wrap in "_").
-		if _, err := bufferedWriter.WriteString("_"); err != nil {
+		s := fmt.Sprintf("_%s_ ", cmdToks[1])
+		if _, err := bufferedWriter.WriteString(s); err != nil {
 			return err
 		}
-		if _, err := bufferedWriter.WriteString(cmdToks[1]); err != nil {
-			return err
-		}
-		if _, err := bufferedWriter.WriteString("_ "); err != nil {
-			return err
+
+	case ".Bl":
+		// Begin list. Ignore
+
+	case ".Dd":
+		// Document date. Ignore.
+
+	case ".Dt":
+		// Document title.
+		// We're only interested in the title and section for now.
+		if len(cmdToks) > 1 {
+			title := cmdToks[1]
+			if len(cmdToks) > 2 {
+				title = fmt.Sprintf("%s(%s)", title, cmdToks[2])
+			}
+
+			s := fmt.Sprintf("%s\n%s\n\n", title, strings.Repeat("=", len(title)))
+			if _, err := bufferedWriter.WriteString(s); err != nil {
+				return err
+			}
 		}
 
 	case ".Fl":
@@ -145,6 +169,28 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 			}
 		*/
 
+	case ".It":
+		// List item. Precede with "*".
+		if _, err := bufferedWriter.WriteString("\n\n* "); err != nil {
+			return err
+		}
+
+		// Process the remainder of the line.
+		if err := processTokens(state, cmdToks[1:], bufferedWriter); err != nil {
+			return err
+		}
+
+		if _, err := bufferedWriter.WriteString("\n"); err != nil {
+			return err
+		}
+
+	case ".Nd":
+		// Description
+		s := fmt.Sprintf("-- %s", strings.Join(cmdToks[1:], " "))
+		if _, err := bufferedWriter.WriteString(s); err != nil {
+			return err
+		}
+
 	case ".Nm":
 		// Page name macro
 		// The first occurrence sets the name.
@@ -155,21 +201,14 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 		}
 
 		if len(state.pageName) > 0 {
-			if _, err := bufferedWriter.WriteString(state.pageName); err != nil {
-				return err
-			}
-			if _, err := bufferedWriter.WriteString(" "); err != nil {
-				return err
-			}
+			s := fmt.Sprintf("%s ", state.pageName)
 			if len(cmdToks) > tokensProcessed {
 				for tokenIndex := tokensProcessed; tokenIndex < len(cmdToks); tokenIndex++ {
-					if _, err := bufferedWriter.WriteString(cmdToks[tokenIndex]); err != nil {
-						return err
-					}
-					if _, err := bufferedWriter.WriteString(" "); err != nil {
-						return err
-					}
+					s = fmt.Sprintf("%s%s ", s, cmdToks[tokenIndex])
 				}
+			}
+			if _, err := bufferedWriter.WriteString(s); err != nil {
+				return err
 			}
 		}
 
@@ -198,6 +237,9 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 			return err
 		}
 
+	case ".Os":
+		// Operating system. Ignore.
+
 	case ".Pp", ".PP":
 		// Paragraph break
 		if _, err := bufferedWriter.WriteString("\n\n"); err != nil {
@@ -215,17 +257,14 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 		}
 
 		header := cmdToks[1]
-		if _, err := bufferedWriter.WriteString(header); err != nil {
-			return err
+
+		// Rename the "Synopsis" section to "Usage"
+		if header == "SYNOPSIS" {
+			header = "USAGE"
 		}
-		if _, err := bufferedWriter.WriteString("\n"); err != nil {
-			return err
-		}
-		ul := strings.Repeat("=", len(header))
-		if _, err := bufferedWriter.WriteString(ul); err != nil {
-			return err
-		}
-		if _, err := bufferedWriter.WriteString("\n"); err != nil {
+
+		s := fmt.Sprintf("%s\n%s\n", header, strings.Repeat("-", len(header)))
+		if _, err := bufferedWriter.WriteString(s); err != nil {
 			return err
 		}
 

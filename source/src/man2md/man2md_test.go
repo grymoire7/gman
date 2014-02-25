@@ -23,7 +23,7 @@ func TestMan2md(t *testing.T) {
 	}
 	defer mdFile.Close()
 
-	if err = man2md(manFile, mdFile); err != nil {
+	if err = Convert(manFile, mdFile); err != nil {
 		t.Fatal("man2md returned error: ", err)
 	}
 }
