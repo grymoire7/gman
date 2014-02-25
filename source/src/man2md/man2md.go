@@ -110,6 +110,13 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 	case ".Dd":
 		// Document date. Ignore.
 
+	case ".Dl":
+		// Literal text. Present like a code block (indented by 4 spaces).
+		s := fmt.Sprintf("\n\n        %s\n", strings.Join(cmdToks[1:], " "))
+		if _, err := bufferedWriter.WriteString(s); err != nil {
+			return err
+		}
+
 	case ".Dt":
 		// Document title.
 		// We're only interested in the title and section for now.
@@ -123,6 +130,33 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 			if _, err := bufferedWriter.WriteString(s); err != nil {
 				return err
 			}
+		}
+
+	case ".Dv":
+		// Defined variable.
+		// Emphasize (strong)
+		s := fmt.Sprintf("__%s__ ", cmdToks[1])
+		if _, err := bufferedWriter.WriteString(s); err != nil {
+			return err
+		}
+
+	case ".El":
+		// End list.
+		// Ignore for now.
+
+	case ".Er":
+		// Error code. Pass it through with "strong" emphasis.
+		s := fmt.Sprintf("__%s__%s ", cmdToks[1], strings.Join(cmdToks[2:], " "))
+		if _, err := bufferedWriter.WriteString(s); err != nil {
+			return err
+		}
+
+	case ".Fx":
+		// FreeBSD version
+		// For now, just substitute "FreeBSD".
+		// TODO: handle default version.
+		if _, err := bufferedWriter.WriteString("FreeBSD "); err != nil {
+			return err
 		}
 
 	case ".Fl":
@@ -240,9 +274,35 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 	case ".Os":
 		// Operating system. Ignore.
 
+	case ".Pa":
+		// Path. Mark for emphasis.
+		s := fmt.Sprintf("_%s_%s ", cmdToks[1], strings.Join(cmdToks[2:], " "))
+		if _, err := bufferedWriter.WriteString(s); err != nil {
+			return err
+		}
+
 	case ".Pp", ".PP":
 		// Paragraph break
 		if _, err := bufferedWriter.WriteString("\n\n"); err != nil {
+			return err
+		}
+
+	case ".Pq":
+		// Enclose rest of the line in parens.
+		if _, err := bufferedWriter.WriteString("("); err != nil {
+			return err
+		}
+		if err := processTokens(state, cmdToks[1:], bufferedWriter); err != nil {
+			return err
+		}
+		if _, err := bufferedWriter.WriteString(") "); err != nil {
+			return err
+		}
+
+	case ".Ql":
+		// Single-quoted literal
+		s := fmt.Sprintf("'%s' ", cmdToks[1])
+		if _, err := bufferedWriter.WriteString(s); err != nil {
 			return err
 		}
 
@@ -264,6 +324,20 @@ func processDotCommand(state *man2mdState, line string, bufferedWriter *bufio.Wr
 		}
 
 		s := fmt.Sprintf("%s\n%s\n", header, strings.Repeat("-", len(header)))
+		if _, err := bufferedWriter.WriteString(s); err != nil {
+			return err
+		}
+
+	case ".Xr":
+		// Cross-reference (link to another man page).
+		// TODO: determine how we're handling links to other gman pages.
+		var section string
+		var sectionExt string
+		if len(cmdToks) > 2 {
+			section = fmt.Sprintf("(%s)", cmdToks[2])
+			sectionExt = fmt.Sprintf(".%s", cmdToks[2])
+		}
+		s := fmt.Sprintf("[%s%s](gman://%s%s) ", cmdToks[1], section, cmdToks[1], sectionExt)
 		if _, err := bufferedWriter.WriteString(s); err != nil {
 			return err
 		}
