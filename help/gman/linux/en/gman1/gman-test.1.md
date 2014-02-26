@@ -140,7 +140,7 @@ The following is in a blockquote:
 
 ### Code block
 
-The <code goes here> and some more <code>
+The `code goes here` and some more `code`.
 
 The following is a code block:
 

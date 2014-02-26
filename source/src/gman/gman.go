@@ -39,9 +39,12 @@ func main() {
     // Get configuration options from rc files and command line.
     opts := readConfig()
 
+    terminalFlags := 0
+
     // Discard logging messages if not in debug mode.
     if debug, ok := opts["--debug"]; ok && debug.(bool) {
         log.Println("Debug on")
+        terminalFlags |= blackfriday.TERM_DEBUG_LOGGING
     } else {
         log.SetOutput(ioutil.Discard)
     }
@@ -109,8 +112,8 @@ func main() {
     extensions |= blackfriday.EXTENSION_TABLES
     extensions |= blackfriday.EXTENSION_FENCED_CODE
     extensions |= blackfriday.EXTENSION_AUTOLINK
-
-    renderer := blackfriday.TerminalRenderer(0)
+    
+    renderer := blackfriday.TerminalRenderer(terminalFlags)
     output := blackfriday.Markdown(input, renderer, extensions)
 
     // declare the pager in raw mode
