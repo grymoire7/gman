@@ -116,8 +116,18 @@ func main() {
     renderer := blackfriday.TerminalRenderer(terminalFlags)
     output := blackfriday.Markdown(input, renderer, extensions)
 
+    pager := opts["--pager"].(string)
+    if pager == "nil" || pager == "null" {
+        fmt.Println(string(output))
+        os.Exit(0)
+    }
+
     // declare the pager in raw mode
     cmd := exec.Command("less", "-R")
+    if opts["--pager"] != "less" {
+        cmd = exec.Command(pager)
+    }
+
     // create a blocking pipe
     r, stdin := io.Pipe()
     // set the ins and outs

@@ -50,12 +50,13 @@ Usage:
   gman (-h | --help | -V | --version )
 
 Options:
-  -h --help                Show this help.
-  -d --debug               Print debug information.
-  --color                  Use color text in terminal.
-  -s <docsection>          Print document section.
-  -p <port> --port <port>  Specifiy port for web server.
-  -V --version             Show version.`
+  -h --help                   Show this help.
+  -d --debug                  Print debug information.
+  --color                     Use color text in terminal.
+  -s <docsection>             Print document section.
+  -P <pager> --pager <pager>  Specifiy the pager [default: less]
+  -p <port> --port <port>     Specifiy port for web server.
+  -V --version                Show version.`
 
     // get user directory
     usr, err := user.Current()
