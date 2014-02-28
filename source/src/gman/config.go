@@ -73,8 +73,5 @@ Options:
 
     result := merge(arguments, merge(homeConfig, merge(etcConfig, binConfig)))
 
-    // config.Section = result["this"].(string)
-    // json.Unmarshal(file, &config)
-    // return config
     return result
 }

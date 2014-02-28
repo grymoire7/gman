@@ -165,6 +165,10 @@ func getTrue() bool {
 
 -----------------------------------
 
+## Entities
+The copy symbol &copy;.
+
+
 ## Tables
 
 Name  | Hat 
