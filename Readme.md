@@ -1,5 +1,5 @@
 <img src="gmanhat.png" align="right"/>
-# gman(1) - Better help
+# gman(1) - A better help system
 
 ## Summary
 Gman is a help system with some modern options.
@@ -29,7 +29,7 @@ Working on version 0.1.
 ### Version 0.1
 Minimal features for something that works.
 
-* Terminal renderer for Markdown (75%)
+* Terminal renderer for Markdown (70%)
 * Help page section extraction (100%)
 * Compressed help page support (100%)
 * Help page contribution guidelines (0%)
