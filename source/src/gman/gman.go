@@ -112,7 +112,7 @@ func main() {
     extensions |= blackfriday.EXTENSION_TABLES
     extensions |= blackfriday.EXTENSION_FENCED_CODE
     extensions |= blackfriday.EXTENSION_AUTOLINK
-    
+
     renderer := blackfriday.TerminalRenderer(terminalFlags)
     output := blackfriday.Markdown(input, renderer, extensions)
 
