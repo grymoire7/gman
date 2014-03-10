@@ -170,6 +170,7 @@ func getTrue() bool {
 ## Entities
 The copy symbol &copy;.
 
+More: &nbsp;&lt;&gt;&amp;&cent;&pound;&yen;&euro;&copy;&reg;
 
 ## Tables
 
