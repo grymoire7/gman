@@ -23,6 +23,11 @@ This is ***emaphasized*** and not emphasized.
         *page*
 
 ## Options
+#### -b
+> This is a test for blockquotes. For this test we need a few long lines of text broken up a few different ways in the source.
+> This is a test for blockquotes. For this test we need a few long lines of
+> text broken up a few different ways in the source.
+
 #### -k *regex*, --apropos *regex*
 Start an http server for interactive browsing and launch the default
 browser if possible.
