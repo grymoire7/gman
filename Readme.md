@@ -36,7 +36,6 @@ Minimal features for something that works.
 * Options extraction (50%)
 
 ### Version 0.2
-* Inline Ronn-style extensions for parser
 * Allow multiple languages and OSes
 * Install script
 * Bug fixes, help pages, etc.
