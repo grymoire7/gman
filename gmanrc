@@ -25,7 +25,7 @@
 
     "_Help": [ " Search path to for when looking for help pages.  ",
                    " Defaults to directory where gman is installed.   " ],
-    "gmanpath" : "../help/gman",
+    "gmanpath" : "help/gman",
 
     "_THE_END":  "Have a nice day!"
 }
