@@ -1,6 +1,6 @@
-[submodule "source/src/blackfriday"]
+[submodule "src/blackfriday"]
 	path = source/src/blackfriday
 	url = git@github.com:grymoire7/blackfriday.git
-[submodule "source/src/docopt"]
-	path = source/src/docopt
+[submodule "src/docopt"]
+	path = src/docopt
     url = git@github.com:grymoire7/docopt.go.git
