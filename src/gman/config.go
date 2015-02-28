@@ -5,7 +5,7 @@
 package main
 
 import (
-    "docopt"        // for command line options parsing
+    "github.com/grymoire7/docopt.go"        // for command line options parsing
     "encoding/json" // for reading config file
     "io/ioutil"     // for reading files and logging
     "log"           // for debug logging

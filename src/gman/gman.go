@@ -18,7 +18,7 @@
 package main
 
 import (
-    "blackfriday"   // markdown parser
+    "github.com/grymoire7/blackfriday"   // markdown parser
     "bufio"         // for section extraction
     "bytes"         // for section extraction
     "compress/gzip" // for gzip io

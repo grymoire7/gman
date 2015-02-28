@@ -1,3 +1,0 @@
-[submodule "src/docopt"]
-	path = src/docopt
-    url = https://github.com/grymoire7/docopt.go.git

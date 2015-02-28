@@ -15,8 +15,8 @@ import (
 	"sort"
 	"strings"
 
-//	"unicode"
-//	"unicode/utf8"
+	//	"unicode"
+	//	"unicode/utf8"
 )
 
 type Man2mdParser struct {
