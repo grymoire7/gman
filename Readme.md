@@ -51,6 +51,11 @@ Minimal features for something that works.
 * Determine criteria for Version 1.0
 * Bug fixes, help pages, etc.
 
+## Build
+    make get    # get dependencies
+    make        # or make gman to build
+    make test   # run the tests
+    make fmt    # go fmt gman and man2md
 
 ## References
 * Markdown processing library [Blackfriday](https://github.com/russross/blackfriday).
