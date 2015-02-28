@@ -11,7 +11,7 @@ endif
 
 # Go parameters
 GOCMD=go
-GOPATH=$(PWD)
+export GOPATH=$(PWD)
 GOCLEAN=$(GOCMD) clean
 GOINSTALL=$(GOCMD) install
 GODEP=$(GOTEST) -i
@@ -29,7 +29,7 @@ TEST=test_terminal test_man2md
 default: gman
 
 gman:
-	GOPATH=$(GOPATH) && $(GOBUILD) gman
+	GOPATH=$(GOPATH) $(GOBUILD) gman
 
 test: $(TEST)
 
@@ -37,7 +37,7 @@ fmt:
 	$(GOFMT) ./src/gman && $(GOFMTGO) ./src/man2md
 
 get:
-	$(GOGET) github.com/grymoire7/docopt.go
+	$(GOGET) github.com/grymoire7/docopt.go; \
 	$(GOGET) github.com/grymoire7/blackfriday
 
 test_terminal:
