@@ -71,7 +71,7 @@ func main() {
     if err != nil {
         // else try to open the non-compressed version
         if input, err = ioutil.ReadFile(pagepath); err != nil {
-            fmt.Fprintln(os.Stderr, "gman: help page not found")
+            fmt.Fprintln(os.Stderr, "gman: help page", page, "not found")
             log.Println("Error reading from", pagepath, ":", err)
             os.Exit(-1)
         }
@@ -79,7 +79,7 @@ func main() {
         defer f.Close()
         gz, err := gzip.NewReader(f)
         if err != nil {
-            fmt.Fprintln(os.Stderr, "gman: help page not found")
+            fmt.Fprintln(os.Stderr, "gman: help page", page, "not found")
             log.Println("Error reading from", gzpagepath, ":", err)
             os.Exit(-1)
         } else {
@@ -87,7 +87,7 @@ func main() {
             buf := bytes.NewBuffer(input)
             _, err := io.Copy(buf, gz)
             if err != nil {
-                fmt.Fprintln(os.Stderr, "gman: help page not found")
+                fmt.Fprintln(os.Stderr, "gman: help page", page, "not found")
                 log.Println("Error reading from", gzpagepath, ":", err)
                 os.Exit(-1)
             }
