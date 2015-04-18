@@ -2,10 +2,13 @@
 *.o
 *.a
 *.so
+gman
 
 # Folders
 _obj
 _test
+src/man2md/testing/*.md
+src/github.com/*
 
 # Architecture specific extensions/prefixes
 *.[568vq]
