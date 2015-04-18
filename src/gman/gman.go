@@ -18,18 +18,18 @@
 package main
 
 import (
-    "github.com/grymoire7/blackfriday"   // markdown parser
-    "bufio"         // for section extraction
-    "bytes"         // for section extraction
-    "compress/gzip" // for gzip io
-    "errors"        // for reporting errors
-    "fmt"           // for printing runtime errors
-    "io"            // for piping through pager
-    "io/ioutil"     // for reading files and logging
-    "log"           // for debug logging
-    "os"            // for local file access
-    "os/exec"       // for piping through pager
-    "strings"       // for string manipulation
+    "bufio"                            // for section extraction
+    "bytes"                            // for section extraction
+    "compress/gzip"                    // for gzip io
+    "errors"                           // for reporting errors
+    "fmt"                              // for printing runtime errors
+    "github.com/grymoire7/blackfriday" // markdown parser
+    "io"                               // for piping through pager
+    "io/ioutil"                        // for reading files and logging
+    "log"                              // for debug logging
+    "os"                               // for local file access
+    "os/exec"                          // for piping through pager
+    "strings"                          // for string manipulation
 )
 
 func init() {

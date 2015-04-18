@@ -5,11 +5,11 @@
 package main
 
 import (
-    "github.com/grymoire7/docopt.go"        // for command line options parsing
-    "encoding/json" // for reading config file
-    "io/ioutil"     // for reading files and logging
-    "log"           // for debug logging
-    "os/user"       // for finding user home directory
+    "encoding/json"                  // for reading config file
+    "github.com/grymoire7/docopt.go" // for command line options parsing
+    "io/ioutil"                      // for reading files and logging
+    "log"                            // for debug logging
+    "os/user"                        // for finding user home directory
 )
 
 var GMAN_VERSION = "0.1rc"
